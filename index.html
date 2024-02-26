@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Status Checker</title>
+  <link rel="icon" href="mask.png" type="image/x-icon">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+
+    #status {
+      font-weight: bold;
+    }
+
+    .green-text {
+      color: green;
+    }
+
+    .red-text {
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Status Checker</h1>
+
+  <label for="itemInput">Internship ID:</label>
+  <input type="text" id="itemInput" placeholder="Enter Internship ID...">
+  <button onclick="checkStatus()">Check Status</button>
+
+  <p id="status" class=""></p>
+  <p id="details"></p>
+
+  <script>
+    document.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+    });
+
+    const verifiedList = ["WDI100040",
+      "SWDI100104",
+      "WDI100094",
+      "WDI100100",
+      "SWDI10033",
+      "WDI100090",
+      "WDI10006",
+      "SWDI100063",
+      "WDI100015",
+      "WDI100051",
+      "SWDI100093",
+      "WDI100056",
+      "WDI100147",
+      "SWDI100072",
+      "WDI100157",
+      "SWDI100035",
+      "SWDI100127",
+      "SWDI100073",
+      "WDI100055",
+      "WDI100092",
+      "SWDI100070",
+      "SWDI100137",
+      "WDI100148",
+      "WDI100080",
+      "SADI100162",
+      "SWDI100123",
+      "WDI100117",
+      "WDI100097",
+      "WDI100079",
+      "SWDI100103",
+      "WDI100120",
+      "SWDI100106",
+      "SWDI100159",
+      "WDI10007",
+      "SWDI100126",
+      "SJDI100039",
+    ];
+    const completedList = [
+      "WDI100040",
+      "SWDI100104",
+      "WDI100094",
+      "WDI100100",
+      "SWDI10033",
+      "WDI100090",
+      "WDI10006",
+      "SWDI100063",
+      "WDI100015",
+      "WDI100051",
+      "SWDI100093",
+      "WDI100056",
+      "WDI100147",
+      "SWDI100072",
+      "WDI100157",
+      "SWDI100035",
+      "SWDI100127",
+      "SWDI100073",
+      "WDI100055",
+      "WDI100092",
+      "SWDI100070",
+      "SWDI100137",
+      "WDI100148",
+      "WDI100080",
+      "SADI100162",
+      "SWDI100123",
+      "WDI100117",
+      "WDI100097",
+      "WDI100079",
+      "SWDI100103",
+      "WDI100120",
+      "SWDI100106",
+      "SWDI100159",
+      "WDI10007",
+      "SWDI100126",
+      "SJDI100039",
+    ];
+
+    const detailsMap = {
+      "SWDI10033": "Name: Pratik Santosh Zambare<br>Institute Name: Sinhgad college of engineering, pune(TEIT) <br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+      "WDI100100": "Name: Pratik Bhavsing Gavit<br>Institute Name: Sinhgad college of engineering, pune(TEIT) <br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+      "WDI100094": "Sahil Ulhas Wable<br>Institute Name: COLLEGE OF ENGINEERING<br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+      "SWDI100104": "Amar Chandrakant Kalukhe<br>Institute Name: Sinhgad college of engineering, pune(TEIT) <br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+
+      "WDI100090": "SARISH RV<br>Institute Name: St.joseph's College Of Engineering, Chennai<br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+      "WDI10006": "Rushiraj Sachin Rajeshirke <br>Institute Name: Sinhgad college of engineering, pune(TEIT) <br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+      "SWDI100063": "Akanksha Pravin Shevkari<br>Institute Name: Sinhgad college of engineering, pune(TEIT) <br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+      "WDI100015": "Shreya Kiran Tagalpallewar<br>Institute Name: Sinhgad college of engineering, pune <br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+
+      "WDI100040": "Kumar Gaurav<br>Institute Name: BIRLA INSTITUTE OF TECHNOLOGY<br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+
+      "WDI100051": "Name: Yash Sandip Yeola<br>Institute Name: Sinhgad College Of Engineering < br > Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+
+      "SWDI100093": "Name: Shirsath Vishal Janardan<br>Institute Name: Sinhgad College Of Engineering <br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+
+      "WDI100056": "Name: Bhelke Siddhesh Subhash<br>Institute Name: Sinhgad Collage of Engineering<br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+
+      "WDI100147": "Name: Aayush<br>Institute Name: Sinhgad College of Engineering, Pune <br>Domain: Web Development<br>Start Date: 11 January 2024<br>End Date: 8 February 2024",
+
+      "SWDI100072": "Name: Priyanka Ramesh Gaikwad<br>Institute Name: Sinhgad College of Engineering Vadgaon Pune<br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+
+      "WDI100157": "Name: Saurabh Balasaheb Perane<br>Institute Name: PDEA's College Of Engineering, Hadapsar, Manjari Bk., Pune<br>Domain: Web Development<br>Start Date: 11 January 2024<br>End Date: 8 February 2024",
+
+      "SWDI100035": "Name: Rohit Bhimrao Shinde<br>Institute Name: Sinhgad College of Engineering , Pune<br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+
+      "SWDI100127": "Name: Anurag Anoop Saha<br>Institute Name: Sinhgad College Of Engineering<br>Domain: Web Development<br>Start Date: 11 January 2024<br>End Date: 8 February 2024",
+
+      "SWDI100073": "Name: Manav kothari <br>Institute Name: Sinhgad College of engineering <br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+
+      "WDI100055": "Name: Omkar Sunil Gunjote<br>Institute Name: Sinhgad College of Engineering <br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+
+      "WDI100092": "Name: Ritesh Vijay Borale<br>Institute Name: Sinhgad Institute of Technology,Pune<br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+
+      "SWDI100070": "Name: Bhavathankar Yash Nitish<br>Institute Name: Sinhgad College Of Engineering<br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+
+      "SWDI100137": "Name: Ankit Anand<br>Institute Name: Sinhgad College Of Engineering<br>Domain: Web Development<br>Start Date: 11 January 2024<br>End Date: 8 February 2024",
+
+      "WDI100148": "Name: Vedant Sambhaji Ghorpade<br>Institute Name: PDEA's College Of Engineering, Hadapsar, Manjari Bk., Pune<br>Domain: Web Development<br>Start Date: 11 January 2024<br>End Date: 8 February 2024",
+
+      "WDI100080": "Name: Gondhale Sakshi Arunkumar <br>Institute Name: Sinhgad College of Engineering<br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+      "SADI100162": "Name: Parth Pandit Nigade<br>Institute Name: Sinhgad College Of Engineering<br>Domain: Android Development<br>Start Date: 11 January 2024<br>End Date: 8 February 2024",
+      "SWDI100123": "Name: Tapkir Ganraj Balkrishna<br>Institute Name: Sinhgad College Of Engineering <br>Domain: Web Development<br>Start Date: 11 January 2024<br>End Date: 8 February 2024",
+      "WDI100117": "Name: KARTIK ANNASAHEB KESBHAT<br>Institute Name: Sinhgad College of Engineering<br>Domain: Web Development<br>Start Date: 11 January 2024<br>End Date: 8 February 2024",
+      "WDI100097": "Name: MADREWAR OM JITENDRA<br>Institute Name: SINHGAD COLLEGE OF ENGINEERING<br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+      "WDI100079": "Name: Kshirsagar Anushka Jagannath<br>Institute Name: Sinhgad College of Engineering, Pune.<br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+      "SWDI100103": "Name: Harsh Sachin Shete <br>Institute Name: Sinhgad College of Engineering Pune <br>Domain: Web Development<br>Start Date: 11 January 2024<br>End Date: 8 February 2024",
+      "WDI100120": "Name: Rohit Bhushan Gandhi<br>Institute Name: Sinhgad College Of Engineering,Pune<br>Domain: Web Development<br>Start Date: 11 January 2024<br>End Date: 8 February 2024", "SWDI100106": "Name: Yash Gharate<br>Institute Name: Sinhgad Academy of Engineering<br>Domain: Web Development<br>Start Date: 11 January 2024<br>End Date: 8 February 2024",
+
+      "SWDI100159": "Name: Muffadal Shabbir Patrawala<br>Institute Name: Sinhgad College Of Engineering<br>Domain: Web Development<br>Start Date: 11 January 2024<br>End Date: 8 February 2024",
+      "WDI10007": "Name: Thatikonda Upendra<br>Institute Name: st.john's college of Engineering and Technology<br>Domain: Web Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+      "SWDI100126": "Name: Kumar Manglam<br>Institute Name: Sinhgad College of Engineering<br>Domain: Web Development<br>Start Date: 11 January 2024<br>End Date: 8 February 2024",
+
+      "SJDI100039": "Name: HARSHWARDHAN HANUMANT BELE<br>Institute Name: Sinhgad College Of Engineering <br> Domain: Java Development<br>Start Date: 5 January 2024<br>End Date: 2 February 2024",
+    };
+
+    function checkStatus() {
+      const userInput = document.getElementById("itemInput").value.trim();
+
+      if (userInput === "") {
+        alert("Please enter an Internship ID.");
+        return;
+      }
+
+      const isVerified = verifiedList.includes(userInput);
+      const statusElement = document.getElementById("status");
+      const detailsElement = document.getElementById("details");
+
+      if (isVerified) {
+        if (completedList.includes(userInput)) {
+          statusElement.textContent = "Verified and Completed";
+          statusElement.className = "green-text";
+          displayDetails(userInput);
+        } else {
+          statusElement.textContent = "Verified and Pursuing";
+          statusElement.className = "green-text";
+          detailsElement.innerHTML = detailsMap[userInput] || "Details not available.";
+        }
+      } else {
+        statusElement.textContent = "Not Verified";
+        statusElement.className = "red-text";
+        detailsElement.textContent = "Details for " + userInput + ": This intern is not verified.";
+      }
+    }
+
+    function displayDetails(task) {
+      const detailsElement = document.getElementById("details");
+      detailsElement.innerHTML = detailsMap[task] || "Details not available.";
+    }
+  </script>
+</body>
+
+</html>
